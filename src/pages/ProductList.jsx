@@ -1,45 +1,50 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/CartSlice";
+import { addItem } from "../redux/CartSlice";
 
-const plants = [
-  { id: 1, name: "Snake Plant", price: 300, category: "Indoor", img: "https://via.placeholder.com/120" },
-  { id: 2, name: "Peace Lily", price: 400, category: "Indoor", img: "https://via.placeholder.com/120" },
+const plantData = {
+  Indoor: [
+    { id: 1, name: "Snake Plant", price: 250 },
+    { id: 2, name: "Peace Lily", price: 300 }
+  ],
+  Outdoor: [
+    { id: 3, name: "Rose Plant", price: 200 },
+    { id: 4, name: "Hibiscus", price: 220 }
+  ],
+  Succulents: [
+    { id: 5, name: "Aloe Vera", price: 180 },
+    { id: 6, name: "Cactus", price: 150 }
+  ]
+};
 
-  { id: 3, name: "Aloe Vera", price: 200, category: "Succulent", img: "https://via.placeholder.com/120" },
-  { id: 4, name: "Jade Plant", price: 250, category: "Succulent", img: "https://via.placeholder.com/120" },
-
-  { id: 5, name: "Areca Palm", price: 500, category: "Outdoor", img: "https://via.placeholder.com/120" },
-  { id: 6, name: "Money Plant", price: 150, category: "Outdoor", img: "https://via.placeholder.com/120" }
-];
-
-export default function ProductList() {
+const ProductList = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.cart.items);
+  const cart = useSelector(state => state.cart);
+
+  const isInCart = (id) => cart.some(item => item.id === id);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Our Plants</h2>
+    <div>
+      <h1>Plant Categories</h1>
 
-      {plants.map(plant => (
-        <div
-          key={plant.id}
-          style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}
-        >
-          <img src={plant.img} alt={plant.name} />
-          <h4>{plant.name}</h4>
-          <p>Category: {plant.category}</p>
-          <p>Price: ₹{plant.price}</p>
+      {Object.keys(plantData).map(category => (
+        <div key={category}>
+          <h2>{category}</h2>
 
-          <button
-            disabled={cartItems.some(item => item.id === plant.id)}
-            onClick={() => dispatch(addToCart(plant))}
-          >
-            {cartItems.some(item => item.id === plant.id)
-              ? "Added to Cart"
-              : "Add to Cart"}
-          </button>
+          {plantData[category].map(plant => (
+            <div key={plant.id}>
+              <p>{plant.name} - ₹{plant.price}</p>
+              <button
+                disabled={isInCart(plant.id)}
+                onClick={() => dispatch(addItem(plant))}
+              >
+                {isInCart(plant.id) ? "Added" : "Add to Cart"}
+              </button>
+            </div>
+          ))}
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default ProductList;

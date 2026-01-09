@@ -1,12 +1,18 @@
-export default function AboutUs() {
+const AboutUs = () => {
   return (
-    <div>
-      <h1>Paradise Nursery</h1>
+    <div className="about-us-container">
+      <h1>About e-plantShopping</h1>
       <p>
-        Paradise Nursery is your trusted destination for premium quality
-        houseplants. We offer a wide range of indoor plants, outdoor plants,
-        and succulents to bring nature closer to your home.
+        e-plantShopping is your trusted destination for premium quality plants.
+        We offer a wide range of indoor plants, outdoor plants, and succulents
+        to help you bring nature closer to your home.
+      </p>
+      <p>
+        Our mission is to make plant shopping simple, affordable, and enjoyable
+        for everyone.
       </p>
     </div>
   );
-}
+};
+
+export default AboutUs;
